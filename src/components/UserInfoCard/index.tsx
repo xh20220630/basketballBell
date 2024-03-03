@@ -1,5 +1,7 @@
 // 用户信息组件
 
+import { animated, useSpring } from '@react-spring/web';
+import { Link } from '@umijs/max';
 import React from 'react';
 
 type UserInfoCardProps = {
@@ -10,11 +12,18 @@ const UserInfoCard: React.FunctionComponent<UserInfoCardProps> = function (
   props,
 ) {
   const { handleClick } = props;
+  const springs = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+  });
   return (
-    <div
+    <animated.div
       id="UserInfoCard"
       onClick={handleClick}
       className="absolute top-full right-0 w-[240px]"
+      style={{
+        ...springs,
+      }}
     >
       <div
         id="card_box"
@@ -32,9 +41,11 @@ const UserInfoCard: React.FunctionComponent<UserInfoCardProps> = function (
           <div className="p-2 rounded-md text-sortTextColor hover:bg-blue-200 hover:underline cursor-pointer hover:text-blue-700">
             仪表盘
           </div>
-          <div className="p-2 rounded-md text-sortTextColor hover:bg-blue-200 hover:underline cursor-pointer hover:text-blue-700">
-            创建文章
-          </div>
+          <Link to="news">
+            <div className="p-2 rounded-md text-sortTextColor hover:bg-blue-200 hover:underline cursor-pointer hover:text-blue-700">
+              创建文章
+            </div>
+          </Link>
           <div className="p-2 rounded-md text-sortTextColor hover:bg-blue-200 hover:underline cursor-pointer hover:text-blue-700">
             设置
           </div>
@@ -45,7 +56,7 @@ const UserInfoCard: React.FunctionComponent<UserInfoCardProps> = function (
           </div>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 };
 

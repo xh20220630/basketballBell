@@ -11,6 +11,11 @@ export default defineConfig({
       path: '/home',
       component: './Home',
     },
+    {
+      name: '创建文章',
+      path: '/news',
+      component: './News',
+    },
   ],
 
   npmClient: 'pnpm',
