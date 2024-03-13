@@ -78,3 +78,11 @@ interface AuthorInfo {
   name: string;
   avatar: string;
 }
+
+//Tag 渲染 props
+
+export type TagRenderData = {
+  value: string | number;
+  label: string;
+  description: string;
+};

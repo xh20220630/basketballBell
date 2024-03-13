@@ -16,6 +16,11 @@ export default defineConfig({
       path: '/news',
       component: './News',
     },
+    {
+      name: '登录',
+      path: '/login',
+      component: './Login',
+    },
   ],
 
   npmClient: 'pnpm',
@@ -25,5 +30,19 @@ export default defineConfig({
   // icon集设置
   icons: {
     autoInstall: {},
+  },
+
+  //是否开启请求
+  request: {
+    dataField: 'data',
+  },
+
+  //开启请求代理
+  proxy: {
+    '/api': {
+      target: 'http://localhost:8082',
+      changeOrigin: true,
+      // 'pathRewrite': { '^/api' : '' },
+    },
   },
 });

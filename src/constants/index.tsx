@@ -152,3 +152,6 @@ export const HotDiscussList: HotDiscussProps[] = [
     ],
   },
 ];
+
+// 最大的标签数量
+export const ArticleTagMaxCount = 4;
