@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
-
-const minHeight = 64;
+import { debounce } from 'lodash';
+import React, { useRef, useState } from 'react';
+const minHeight = 46;
 
 export function useTextArea() {
   //记录当前换行的次数
@@ -9,12 +9,21 @@ export function useTextArea() {
 
   //计算当前的换行数量
   const computerMinHeight = (scrollHeight: number): number => {
-    console.log(scrollHeight, 'scrollHeight');
-    return Math.ceil(scrollHeight / minHeight) * minHeight;
+    return scrollHeight > 0 ? scrollHeight : minHeight;
   };
-  const handleSetTitle = (event: any, value: string): void => {
-    //禁用换行
+
+  const debounceHandle = debounce((event) => {
     minHeightRef.current = computerMinHeight(event.target.scrollHeight);
+  }, 0);
+  const handleSetTitle = (
+    event: any,
+    value: string,
+    textRef: React.RefObject<HTMLAreaElement>,
+  ): void => {
+    //禁用换行 --- 使用防抖
+    debounceHandle({
+      target: textRef.current,
+    });
     setValue(value);
   };
 
