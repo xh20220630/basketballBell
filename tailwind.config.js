@@ -1,5 +1,9 @@
 const headerHeight = 56;
 
+const lightTheme = {
+  backgroundColor: 'rgb(255,255,255)',
+};
+
 module.exports = {
   content: [
     './src/pages/**/*.tsx',
@@ -23,6 +27,8 @@ module.exports = {
         buttonColor: 'rgba(29,161,242,1)',
         //文字按钮hover的颜色
         textBtnHoverColor: 'rgb(226,227,243)',
+        //白天的背景颜色
+        lightBackColor: lightTheme.backgroundColor,
       },
       height: {
         headerHeight: headerHeight + 'px',

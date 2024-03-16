@@ -1,24 +1,27 @@
-import { PostRequest } from '@/Api';
+import { PostLogin, PostPhoneLogin } from '@/Api';
+import { LoginReqParamsType } from '@/Types/LoginType';
 import {
   AlipayOutlined,
-  LockOutlined,
-  MobileOutlined,
   TaobaoOutlined,
-  UserOutlined,
   WeiboOutlined,
 } from '@ant-design/icons';
 import {
   LoginFormPage,
   ProConfigProvider,
-  ProFormCaptcha,
   ProFormCheckbox,
-  ProFormText,
 } from '@ant-design/pro-components';
-import { Divider, Space, Tabs, message, theme } from 'antd';
+import { useNavigate } from '@umijs/max';
+import { App, Divider, Form, Space, Tabs, theme } from 'antd';
 import type { CSSProperties } from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
+import AccountForm from './AccoutForm';
+import PhoneForm from './PhoneForm';
 
-type LoginType = 'phone' | 'account';
+export type LoginType = 'phone' | 'account';
+
+interface handleLoginSuccess {
+  (res: { message: string; redirect: string }): void;
+}
 
 const iconStyles: CSSProperties = {
   color: 'rgba(0, 0, 0, 0.2)',
@@ -28,8 +31,60 @@ const iconStyles: CSSProperties = {
 };
 
 const LoginForm = () => {
-  const [loginType, setLoginType] = useState<LoginType>('phone');
+  const [loginType, setLoginType] = useState<LoginType>('account');
+
+  //是否触发刷新验证码
+  const [refreshCaptchaCode, setRefreshCaptchaCode] = useState<boolean>(false);
+  const [form] = Form.useForm();
   const { token } = theme.useToken();
+  const { message } = App.useApp();
+  const navigate = useNavigate();
+
+  const LoginFinish = useCallback(
+    async (value: LoginReqParamsType) => {
+      //登录成功的回调函数
+      const handleLoginSuccess: handleLoginSuccess = (res) => {
+        message.success(res.message);
+        //进行路由的跳转
+        navigate(res.redirect);
+      };
+
+      //账户登录
+      const AccountLogin = async () => {
+        //请求登录
+        const { data } = await PostLogin({
+          ...value,
+          //重定向到首页
+          redirect: '/',
+        });
+
+        handleLoginSuccess({
+          message: data.message,
+          redirect: data.redirect,
+        });
+      };
+
+      const PhoneLogin = async () => {
+        //电话号码登录
+        const { data } = await PostPhoneLogin(value);
+
+        handleLoginSuccess({
+          message: data.message,
+          redirect: data.redirect,
+        });
+      };
+
+      if (loginType === 'account') {
+        // 请求刷新验证码
+        setRefreshCaptchaCode(!refreshCaptchaCode);
+        await AccountLogin();
+      } else if (loginType === 'phone') {
+        await PhoneLogin();
+      }
+    },
+    [refreshCaptchaCode],
+  );
+
   return (
     <div
       style={{
@@ -38,6 +93,7 @@ const LoginForm = () => {
       }}
     >
       <LoginFormPage
+        form={form}
         backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
         logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
         backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
@@ -47,6 +103,7 @@ const LoginForm = () => {
           backdropFilter: 'blur(4px)',
         }}
         subTitle="打造大家梦想中的社区"
+        onFinish={LoginFinish}
         actions={
           <div
             style={{
@@ -122,121 +179,21 @@ const LoginForm = () => {
             {
               key: 'account',
               label: '账号密码登录',
+              children: (
+                <AccountForm
+                  refreshCaptchaCode={refreshCaptchaCode}
+                  form={form}
+                  token={token}
+                />
+              ),
             },
             {
               key: 'phone',
               label: '手机号登录',
+              children: <PhoneForm form={form} token={token} />,
             },
           ]}
         ></Tabs>
-        {loginType === 'account' && (
-          <>
-            <ProFormText
-              name="username"
-              fieldProps={{
-                size: 'large',
-                prefix: (
-                  <UserOutlined
-                    style={{
-                      color: token.colorText,
-                    }}
-                    className={'prefixIcon'}
-                  />
-                ),
-              }}
-              placeholder={'用户名: admin or user'}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入用户名!',
-                },
-              ]}
-            />
-            <ProFormText.Password
-              name="password"
-              fieldProps={{
-                size: 'large',
-                prefix: (
-                  <LockOutlined
-                    style={{
-                      color: token.colorText,
-                    }}
-                    className={'prefixIcon'}
-                  />
-                ),
-              }}
-              placeholder={'密码: ant.design'}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入密码！',
-                },
-              ]}
-            />
-          </>
-        )}
-        {loginType === 'phone' && (
-          <>
-            <ProFormText
-              fieldProps={{
-                size: 'large',
-                prefix: (
-                  <MobileOutlined
-                    style={{
-                      color: token.colorText,
-                    }}
-                    className={'prefixIcon'}
-                  />
-                ),
-              }}
-              name="mobile"
-              placeholder={'手机号'}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入手机号！',
-                },
-                {
-                  pattern: /^1\d{10}$/,
-                  message: '手机号格式错误！',
-                },
-              ]}
-            />
-            <ProFormCaptcha
-              fieldProps={{
-                size: 'large',
-                prefix: (
-                  <LockOutlined
-                    style={{
-                      color: token.colorText,
-                    }}
-                    className={'prefixIcon'}
-                  />
-                ),
-              }}
-              captchaProps={{
-                size: 'large',
-              }}
-              placeholder={'请输入验证码'}
-              captchaTextRender={(timing, count) => {
-                if (timing) {
-                  return `${count} ${'获取验证码'}`;
-                }
-                return '获取验证码';
-              }}
-              name="captcha"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入验证码！',
-                },
-              ]}
-              onGetCaptcha={async () => {
-                message.success('获取验证码成功！验证码为：1234');
-              }}
-            />
-          </>
-        )}
         <div
           style={{
             marginBlockEnd: 24,
@@ -259,17 +216,11 @@ const LoginForm = () => {
 };
 
 export default function Login() {
-  //请求登录
-  const loginHandle = async () => {
-    const res = await PostRequest();
-    console.log(res, 'res');
-  };
-  useEffect(() => {
-    loginHandle();
-  }, []);
   return (
-    <ProConfigProvider dark>
-      <LoginForm />
-    </ProConfigProvider>
+    <App>
+      <ProConfigProvider dark>
+        <LoginForm />
+      </ProConfigProvider>
+    </App>
   );
 }

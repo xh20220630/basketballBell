@@ -1,12 +1,13 @@
 // 全局共享数据示例
 import { useState } from 'react';
 
-const useHello = () => {
-  const [hello, setHello] = useState<string>('hello basketballBell');
+// 全局共享属性token
+const useToken = (tokenStr: string) => {
+  const [token, setToken] = useState<string>(tokenStr);
   return {
-    hello,
-    setHello,
+    token,
+    setToken,
   };
 };
 
-export default useHello;
+export default useToken;
