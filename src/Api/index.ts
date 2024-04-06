@@ -18,6 +18,7 @@ function GetVerifyCaptionCode(data: CaptionCodeVerify) {
   });
 }
 
-export const { PostLogin, PostPhoneLogin, PostSignUp } = UserApi;
+export const { PostLogin, PostPhoneLogin, PostSignUp, PostForgetPassword } =
+  UserApi;
 
 export { GetVerifyCaptionCode, getCaptionImg };

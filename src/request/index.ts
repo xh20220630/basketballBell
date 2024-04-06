@@ -12,7 +12,7 @@ export interface ResponseStructure {
 
 const requestConfig: RequestConfig<ResponseStructure> = {
   // 统一的请求设定
-  timeout: 1000,
+  timeout: 3000,
   errorConfig,
   requestInterceptors: requestInterceptorsConfig.requestInterceptors,
   responseInterceptors: requestInterceptorsConfig.responseInterceptors,

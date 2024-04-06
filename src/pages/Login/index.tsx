@@ -1,5 +1,6 @@
 import { PostLogin, PostPhoneLogin } from '@/Api';
 import { LoginReqParamsType } from '@/Types/LoginType';
+import { APP_Config } from '@/config';
 import {
   AlipayOutlined,
   TaobaoOutlined,
@@ -10,7 +11,7 @@ import {
   ProConfigProvider,
   ProFormCheckbox,
 } from '@ant-design/pro-components';
-import { useNavigate } from '@umijs/max';
+import { Link, useNavigate } from '@umijs/max';
 import { App, Divider, Form, Space, Tabs, theme } from 'antd';
 import type { CSSProperties } from 'react';
 import { useCallback, useState } from 'react';
@@ -94,15 +95,15 @@ const LoginForm = () => {
     >
       <LoginFormPage
         form={form}
-        backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
-        logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        backgroundImageUrl=""
+        logo={APP_Config.AppLogo}
         backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
-        title="爱玩社区"
+        title={APP_Config.AppTitle}
         containerStyle={{
           backgroundColor: 'rgba(0, 0, 0,0.65)',
           backdropFilter: 'blur(4px)',
         }}
-        subTitle="打造大家梦想中的社区"
+        subTitle={APP_Config.AppSubTitle}
         onFinish={LoginFinish}
         actions={
           <div
@@ -202,13 +203,14 @@ const LoginForm = () => {
           <ProFormCheckbox noStyle name="autoLogin">
             自动登录
           </ProFormCheckbox>
-          <a
+          <Link
             style={{
               float: 'right',
             }}
+            to="/forgetPwd"
           >
             忘记密码
-          </a>
+          </Link>
         </div>
       </LoginFormPage>
     </div>

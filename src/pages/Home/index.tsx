@@ -1,4 +1,5 @@
 import { UserInfoCard } from '@/components';
+import { Logo } from '@/components/Logo';
 import HeaderLayout from '@/layouts/header';
 import { Icon, Link } from '@umijs/max';
 import { useState } from 'react';
@@ -17,10 +18,10 @@ function RightContent() {
     <div className="flex items-center gap-2 relative">
       <Link to="/news">
         <div className="p-2 border border-blue-700 hover:bg-blue-700 hover:text-white cursor-pointer rounded-md text-blue-500 font-medium">
-          Create posts
+          创建文章
           <Icon
             icon="ant-design:edit-outlined"
-            className="align-[-5px] w-6 h-6 inline-block"
+            className="align-[-9px] w-6 h-6 inline-block"
           />
         </div>
       </Link>
@@ -51,11 +52,7 @@ const HomePage: React.FunctionComponent = () => {
           <div className="flex items-center gap-2 relative">
             {/* <!-- logo --> */}
             <Link to="/">
-              <img
-                src="https://picsum.photos/200/300"
-                alt="logo"
-                className="w-12 h-10"
-              />
+              <Logo width={48} height={40} />
             </Link>
             <input
               placeholder="搜索你想要的内容"

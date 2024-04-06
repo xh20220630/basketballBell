@@ -13,6 +13,9 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.0",
     "@ant-design/pro-components": "^2.6.49",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
     "@react-spring/web": "^9.7.3",
     "@types/lodash": "^4.14.202",
     "@uidotdev/usehooks": "^2.4.1",

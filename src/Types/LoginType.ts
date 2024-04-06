@@ -21,6 +21,12 @@ type LoginReqParamsType = {
   redirect: string;
 };
 
+//电话登录的类型
+type PhoneLoginReqParams = {
+  phone: string | number;
+  captchaCode: string;
+};
+
 type CaptionCodeVerify = {
   captchaCode: string;
   captchaId: string;
@@ -38,6 +44,7 @@ export {
   CaptionCodeVerify,
   LoginFormProps,
   LoginReqParamsType,
+  PhoneLoginReqParams,
   ReqCaptionCode,
   SignReqParamsProps,
 };

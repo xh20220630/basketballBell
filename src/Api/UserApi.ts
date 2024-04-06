@@ -1,4 +1,8 @@
-import { LoginReqParamsType, SignReqParamsProps } from '@/Types/LoginType';
+import {
+  LoginReqParamsType,
+  PhoneLoginReqParams,
+  SignReqParamsProps,
+} from '@/Types/LoginType';
 import { request } from 'umi';
 
 //请求登录 --- 账号登录
@@ -13,7 +17,7 @@ function PostLogin(data: LoginReqParamsType) {
 }
 
 // 请求电话登录
-function PostPhoneLogin(data) {
+function PostPhoneLogin(data: PhoneLoginReqParams) {
   return request('/api/login/phoneSign', {
     method: 'post',
     data,
@@ -31,8 +35,20 @@ function PostSignUp(data: SignReqParamsProps) {
   });
 }
 
+//请求忘记密码
+function PostForgetPassword(data: { email: string }) {
+  return request('/api/user/forget/pass/word ', {
+    method: 'post',
+    data,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+
 export default {
   PostLogin,
   PostPhoneLogin,
   PostSignUp,
+  PostForgetPassword,
 };

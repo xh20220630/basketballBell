@@ -31,6 +31,18 @@ export default defineConfig({
       path: '/signUp',
       component: getAbsolutePath('Login/SignUp'),
     },
+    {
+      name: '忘记密码',
+      path: '/forgetPwd',
+      component: getAbsolutePath('Login/ForgetPwd'),
+    },
+  ],
+
+  //配置网站图标
+  favicons: [
+    // 完整地址
+    'https://cdn.dribbble.com/userupload/13278662/file/original-5c0b8ca6ff0bb7e65b7317bb49a4bcae.jpg?resize=1600x1200',
+    // 此时将指向 `/favicon.png` ，确保你的项目含有 `public/favicon.png`
   ],
 
   npmClient: 'pnpm',
@@ -54,5 +66,10 @@ export default defineConfig({
       changeOrigin: true,
       // 'pathRewrite': { '^/api' : '' },
     },
+  },
+
+  //导入的别名
+  alias: {
+    public: '/public',
   },
 });

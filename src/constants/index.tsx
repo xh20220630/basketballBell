@@ -153,5 +153,19 @@ export const HotDiscussList: HotDiscussProps[] = [
   },
 ];
 
+// form 验证
+
+export const FormVerification: Record<string, any> = {
+  email: {
+    verify: '^\\w+(-+.\\w+)*@\\w+(-.\\w+)*.\\w+(-.\\w+)*$',
+    msg: '请输入正确的邮箱格式',
+  },
+
+  text: {
+    verify: '',
+    msg: '',
+  },
+};
+
 // 最大的标签数量
 export const ArticleTagMaxCount = 4;

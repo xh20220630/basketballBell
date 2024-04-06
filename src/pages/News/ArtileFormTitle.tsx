@@ -1,4 +1,5 @@
 import Button from '@/components/Button';
+import { Logo } from '@/components/Logo';
 import { Link } from '@umijs/max';
 import React from 'react';
 import { News_render_key } from './type';
@@ -38,11 +39,7 @@ export default function ArticleFormTitle(
       <div className="flex items-center flex-grow gap-2 relative">
         {/* <!-- logo --> */}
         <Link to="/">
-          <img
-            src="https://picsum.photos/200/300"
-            alt="logo"
-            className="w-12 h-10"
-          />
+          <Logo width={48} height={40} />
         </Link>
         <div>创建文章</div>
       </div>
