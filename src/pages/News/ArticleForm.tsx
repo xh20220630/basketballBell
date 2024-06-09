@@ -2,9 +2,9 @@ import { TagRenderData } from '@/Types/componentsType';
 import { ArticleTagMaxCount } from '@/constants';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Select, SelectProps } from 'antd';
+import { MdEditor } from 'md-editor-rt';
+import 'md-editor-rt/lib/style.css';
 import { useRef, useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import { useTextArea } from './hooks';
 
 //自定义tag 的渲染项
@@ -110,12 +110,15 @@ export function ArticleForm() {
         </div>
       </div>
       <div className="p-4 flex-1">
-        <ReactQuill
-          className=" h-[80%]"
-          theme="snow"
-          value={contentValue}
+        <MdEditor
+          placeholder="写下你的想法"
+          modelValue={contentValue}
+          style={{
+            height: '100%',
+          }}
           onChange={setContentValue}
-        />
+          preview={false}
+        ></MdEditor>
       </div>
     </>
   );

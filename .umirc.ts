@@ -36,6 +36,11 @@ export default defineConfig({
       path: '/forgetPwd',
       component: getAbsolutePath('Login/ForgetPwd'),
     },
+    {
+      name: 'SwiperDemo',
+      path: '/SwiperDemo',
+      component: getAbsolutePath('SwiperDemo'),
+    },
   ],
 
   //配置网站图标
