@@ -2,12 +2,11 @@ import { TagRenderData } from '@/Types/componentsType';
 import { ArticleTagMaxCount } from '@/constants';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Select, SelectProps } from 'antd';
-import { useContext, useEffect, useRef } from 'react';
-import { useTextArea } from './hooks';
 import { MdEditor } from 'md-editor-rt';
 import 'md-editor-rt/lib/style.css';
+import { useContext, useEffect, useRef } from 'react';
 import { ArticleFormContext } from '.';
-
+import { useTextArea } from './hooks';
 
 //自定义tag 的渲染项
 const TagRender: SelectProps['optionRender'] = (options) => {
@@ -22,18 +21,23 @@ const TagRender: SelectProps['optionRender'] = (options) => {
 
 export function ArticleForm() {
   const textRef = useRef(null);
-  const {value:titleValue, setValue:setTitleValue,minHeight, preventBlock } = useTextArea();
+  const {
+    value: titleValue,
+    setValue: setTitleValue,
+    minHeight,
+    preventBlock,
+  } = useTextArea();
 
-  const {value, setValue} = useContext(ArticleFormContext);
+  const { value, setValue } = useContext(ArticleFormContext);
 
-  useEffect(()=>{
-    setValue((value)=>{
+  useEffect(() => {
+    setValue((value) => {
       return {
         ...value,
-        title:titleValue
-      }
-    })
-  }, [titleValue])
+        title: titleValue,
+      };
+    });
+  }, [titleValue]);
 
   const tagOptions: TagRenderData[] = [
     {
@@ -123,18 +127,18 @@ export function ArticleForm() {
       </div>
       <div className="p-4 flex-1">
         <MdEditor
-        placeholder='写下你的想法'
-        modelValue={value.content}
-        style={{
-          height:"100%"
-        }}
-        onChange={val=>{
-          setValue(defaultVal=>({
-            ...defaultVal,
-            content:val
-          }))
-        }}
-        preview={false}
+          placeholder="写下你的想法"
+          modelValue={value.content}
+          style={{
+            height: '100%',
+          }}
+          onChange={(val) => {
+            setValue((defaultVal) => ({
+              ...defaultVal,
+              content: val,
+            }));
+          }}
+          preview={false}
         ></MdEditor>
       </div>
     </>

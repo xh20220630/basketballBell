@@ -5,7 +5,7 @@ import React, { useContext, useState } from 'react';
 import { ArticleFormContext } from '.';
 
 export default function ArticleView(): React.ReactElement {
-  const {value} = useContext(ArticleFormContext);
+  const { value } = useContext(ArticleFormContext);
   const [id] = useState('preview-only');
 
   return (

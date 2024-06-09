@@ -17,24 +17,25 @@ interface ArticleFormContextItr {
   coverUrl: string;
 }
 // 创建一个文章 的context 对象
-const defaultValue:ArticleFormContextItr = {
-  title:"",
-  content:"",
-  tag:[],
-  coverUrl:""
+const defaultValue: ArticleFormContextItr = {
+  title: '',
+  content: '',
+  tag: [],
+  coverUrl: '',
 };
 export const ArticleFormContext = createContext<{
-  value:ArticleFormContextItr,
-  setValue:React.Dispatch<React.SetStateAction<ArticleFormContextItr>>
+  value: ArticleFormContextItr;
+  setValue: React.Dispatch<React.SetStateAction<ArticleFormContextItr>>;
 }>({
-  value:defaultValue,
-  setValue(){}
+  value: defaultValue,
+  setValue() {},
 });
 
 export default function News() {
   const [tabKey, setTabKey] = useState(News_render_key.EDIT_KEY);
 
-  const [articleForm, setArticleForm] = useState<ArticleFormContextItr>(defaultValue)
+  const [articleForm, setArticleForm] =
+    useState<ArticleFormContextItr>(defaultValue);
 
   const switchTabKey = (key: News_render_key) => {
     setTabKey(key);
@@ -64,10 +65,12 @@ export default function News() {
           className="rounded-2xl h-bodyHeight w-[820px] mx-auto flex flex-col flex-grow box-border"
         >
           <ArticleFormTitle renderKey={tabKey} switchTab={switchTabKey} />
-          <ArticleFormContext.Provider value={{
-            value:articleForm,
-            setValue:setArticleForm
-          }}>
+          <ArticleFormContext.Provider
+            value={{
+              value: articleForm,
+              setValue: setArticleForm,
+            }}
+          >
             <div className="bg-white m-4 rounded-2xl h-full flex-1 flex flex-col overflow-y-auto">
               {renderTabKey()}
             </div>

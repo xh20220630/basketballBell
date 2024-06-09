@@ -30,8 +30,6 @@ export default function ArticleFormTitle(
 ): React.ReactElement {
   const { switchTab, renderKey } = props;
 
-  
-
   const activeClass = (currentRenderKey: News_render_key): boolean => {
     return renderKey === currentRenderKey;
   };
