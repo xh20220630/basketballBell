@@ -1,16 +1,17 @@
 // 展示文章的View
 
-import { MdEditor } from 'md-editor-rt';
-import React, { useState } from 'react';
+import { MdPreview } from 'md-editor-rt';
+import React, { useContext, useState } from 'react';
+import { ArticleFormContext } from '.';
 
 export default function ArticleView(): React.ReactElement {
-  const [value] = useState<string>('+ ');
+  const {value} = useContext(ArticleFormContext);
   const [id] = useState('preview-only');
 
   return (
     <>
       <div className="p-8 h-full">
-        <MdEditor editorId={id} modelValue={value} />
+        <MdPreview editorId={id} modelValue={value.content} />
       </div>
     </>
   );

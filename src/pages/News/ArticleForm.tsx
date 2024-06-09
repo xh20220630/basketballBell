@@ -2,10 +2,12 @@ import { TagRenderData } from '@/Types/componentsType';
 import { ArticleTagMaxCount } from '@/constants';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Select, SelectProps } from 'antd';
+import { useContext, useEffect, useRef } from 'react';
+import { useTextArea } from './hooks';
 import { MdEditor } from 'md-editor-rt';
 import 'md-editor-rt/lib/style.css';
-import { useRef, useState } from 'react';
-import { useTextArea } from './hooks';
+import { ArticleFormContext } from '.';
+
 
 //自定义tag 的渲染项
 const TagRender: SelectProps['optionRender'] = (options) => {
@@ -20,7 +22,18 @@ const TagRender: SelectProps['optionRender'] = (options) => {
 
 export function ArticleForm() {
   const textRef = useRef(null);
-  const { value, setValue, minHeight, preventBlock } = useTextArea();
+  const {value:titleValue, setValue:setTitleValue,minHeight, preventBlock } = useTextArea();
+
+  const {value, setValue} = useContext(ArticleFormContext);
+
+  useEffect(()=>{
+    setValue((value)=>{
+      return {
+        ...value,
+        title:titleValue
+      }
+    })
+  }, [titleValue])
 
   const tagOptions: TagRenderData[] = [
     {
@@ -58,7 +71,6 @@ export function ArticleForm() {
       description: '',
     },
   ];
-  const [contentValue, setContentValue] = useState('');
 
   return (
     <>
@@ -76,9 +88,9 @@ export function ArticleForm() {
         {/* 标题区域 */}
         <div>
           <textarea
-            value={value}
+            value={titleValue}
             onInput={(event: any) =>
-              setValue(event, event.target.value, textRef)
+              setTitleValue(event, event.target.value, textRef)
             }
             onKeyDown={preventBlock}
             placeholder="新的文章标题"
@@ -89,7 +101,7 @@ export function ArticleForm() {
             }}
           ></textarea>
           <textarea
-            value={value}
+            value={titleValue}
             onKeyDown={preventBlock}
             placeholder="新的文章标题"
             className="text-5xl h-0 invisible absolute -z-50 -left-full w-[550px] overflow-hidden"
@@ -111,13 +123,18 @@ export function ArticleForm() {
       </div>
       <div className="p-4 flex-1">
         <MdEditor
-          placeholder="写下你的想法"
-          modelValue={contentValue}
-          style={{
-            height: '100%',
-          }}
-          onChange={setContentValue}
-          preview={false}
+        placeholder='写下你的想法'
+        modelValue={value.content}
+        style={{
+          height:"100%"
+        }}
+        onChange={val=>{
+          setValue(defaultVal=>({
+            ...defaultVal,
+            content:val
+          }))
+        }}
+        preview={false}
         ></MdEditor>
       </div>
     </>
